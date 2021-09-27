@@ -3,21 +3,8 @@ import { Comment } from "semantic-ui-react";
 import { UserContext } from "../context/contexts";
 import CommentInput from "./CommentInput";
 
-interface IComment {
-    id: number,
-    author: string,
-    img: string,
-    text: string,
-    date: string,
-    rating: number
-}
 
-interface IProps {
-    author: string,
-    img: string,
-    text: string,
-    date: string,
-    rating: number,
+interface IProps extends IComment{
     replies?: IComment[]
 }
 

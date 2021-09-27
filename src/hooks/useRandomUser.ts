@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react"
 
-interface IUser {
-    name: string,
-    img: string
-}
 
 export const useRandomUser = () => {
     const [user, setUser] = useState<IUser>({ name: '', img: '' });

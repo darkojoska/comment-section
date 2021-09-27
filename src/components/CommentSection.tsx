@@ -6,14 +6,6 @@ import { useRandomUser } from '../hooks/useRandomUser';
 import CommentInput from './CommentInput';
 import SingleComment from './SingleComment';
 
-interface IComment {
-    id: number,
-    author: string,
-    img: string,
-    text: string,
-    date: string,
-    rating: number
-}
 
 const CommentSection: React.FC = () => {
     const [comments, setComments] = useState<IComment[]>(initialComments);
@@ -46,12 +38,13 @@ const CommentSection: React.FC = () => {
                 {comments.length > 0 ?
                     comments.map(comment => (
                         <SingleComment
+                            key={comment.id}
+                            id={comment.id}
                             author={comment.author}
                             img={comment.img}
                             text={comment.text}
                             date={comment.date}
                             rating={comment.rating}
-                            key={comment.id}
                         />
                     ))
                     :
