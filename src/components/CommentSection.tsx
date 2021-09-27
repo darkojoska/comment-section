@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Comment } from 'semantic-ui-react';
 import { UserContext } from '../context/contexts';
+import { initialComments } from '../fake-data/initialComments';
 import { useRandomUser } from '../hooks/useRandomUser';
 import CommentInput from './CommentInput';
 import SingleComment from './SingleComment';
@@ -13,41 +14,6 @@ interface IComment {
     date: string,
     rating: number
 }
-
-const initialComments = [
-    {
-        id: 0,
-        author: 'Matt',
-        img: 'https://react.semantic-ui.com/images/avatar/small/matt.jpg',
-        text: 'How artistic!',
-        date: 'Today at 5:42PM',
-        rating: 3
-    },
-    {
-        id: 1,
-        author: 'Elliot Fu',
-        img: 'https://react.semantic-ui.com/images/avatar/small/elliot.jpg',
-        text: 'This has been very useful for my research. Thanks as well!',
-        date: 'Yesterday at 12:30AM',
-        rating: 1
-    },
-    {
-        id: 2,
-        author: 'Jenny Hess',
-        img: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg',
-        text: 'Elliot you are always so right :)',
-        date: 'Just now',
-        rating: 0
-    },
-    {
-        id: 3,
-        author: 'Joe Henderson',
-        img: 'https://react.semantic-ui.com/images/avatar/small/joe.jpg',
-        text: 'Dude, this is awesome. Thanks so much',
-        date: '5 days ago',
-        rating: 2
-    },
-]
 
 const CommentSection: React.FC = () => {
     const [comments, setComments] = useState<IComment[]>(initialComments);
@@ -77,16 +43,20 @@ const CommentSection: React.FC = () => {
             <Comment.Group threaded style={{ marginBottom: 100 }}>
                 <CommentInput submitCallback={handleCommentAdd} />
 
-                {comments.map(comment => (
-                    <SingleComment
-                        author={comment.author}
-                        img={comment.img}
-                        text={comment.text}
-                        date={comment.date}
-                        rating={comment.rating}
-                        key={comment.id}
-                    />
-                ))}
+                {comments.length > 0 ?
+                    comments.map(comment => (
+                        <SingleComment
+                            author={comment.author}
+                            img={comment.img}
+                            text={comment.text}
+                            date={comment.date}
+                            rating={comment.rating}
+                            key={comment.id}
+                        />
+                    ))
+                    :
+                    <div>No comments yet.</div>
+                }
             </Comment.Group>
         </UserContext.Provider>
     )
