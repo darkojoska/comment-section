@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { Comment } from 'semantic-ui-react';
 import { UserContext } from '../context/contexts';
-import { initialComments } from '../fake-data/initialComments';
+import initialComments from '../fake-data/initialComments';
 import { useRandomUser } from '../hooks/useRandomUser';
 import CommentInput from './CommentInput';
 import SingleComment from './SingleComment';
 
 
 const CommentSection: React.FC = () => {
-    const [comments, setComments] = useState<IComment[]>(initialComments);
+    const [comments, setComments] = useState<IComment[]>(initialComments.data);
+    const [commentsCount, setCommentsCount] = useState<number>(initialComments.commentsCount);
     const user = useRandomUser();
 
     const handleCommentAdd = (commentText: string) => {
@@ -20,7 +21,7 @@ const CommentSection: React.FC = () => {
         const year = date.getUTCFullYear();
 
         const newComment: IComment = {
-            id: comments.length,
+            id: commentsCount,
             author: user?.name || '',
             img: user?.img || '',
             text: commentText,
@@ -28,6 +29,7 @@ const CommentSection: React.FC = () => {
             rating: 0
         };
         setComments([newComment, ...comments]);
+        setCommentsCount(currValue => currValue + 1);
     };
 
     return (
@@ -36,20 +38,13 @@ const CommentSection: React.FC = () => {
                 <CommentInput submitCallback={handleCommentAdd} />
 
                 {comments.length > 0 ?
-                    comments.map(comment => (
-                        <SingleComment
-                            key={comment.id}
-                            id={comment.id}
-                            author={comment.author}
-                            img={comment.img}
-                            text={comment.text}
-                            date={comment.date}
-                            rating={comment.rating}
-                        />
-                    ))
+                    comments.map(comment =>
+                        <SingleComment key={comment.id} {...comment} />
+                    )
                     :
                     <div>No comments yet.</div>
                 }
+
             </Comment.Group>
         </UserContext.Provider>
     )

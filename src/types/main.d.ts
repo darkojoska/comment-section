@@ -4,7 +4,8 @@ interface IComment {
     img: string,
     text: string,
     date: string,
-    rating: number
+    rating: number,
+    replies?: IComment[]
 }
 
 interface IUser {

@@ -4,7 +4,7 @@ import { UserContext } from "../context/contexts";
 import CommentInput from "./CommentInput";
 
 
-interface IProps extends IComment{
+interface IProps extends IComment {
     replies?: IComment[]
 }
 
@@ -22,7 +22,7 @@ const SingleComment: React.FC<IProps> = ({ author, img, text, date, rating, repl
         const minutes = now.getMinutes();
         const day = now.getDay();
         const month = now.getMonth();
-        const year = now.getUTCFullYear();
+        const year = now.getFullYear();
 
         const newReply: IComment = {
             id: repliedComments?.length || 0,
@@ -33,6 +33,18 @@ const SingleComment: React.FC<IProps> = ({ author, img, text, date, rating, repl
             rating: 0
         };
         setRepliedComments([...repliedComments, newReply]);
+    };
+
+    const handleRate = (rate: number) => {
+        if (author === user.name) return alert('You can not rate your own comment =/');
+
+        let value = rate;
+        if (ratingValue > rating && rate > 0 || ratingValue < rating && rate < 0) {
+            value = rate * (-1);
+        } else if (ratingValue > rating && rate < 0 || ratingValue < rating && rate > 0) {
+            value += rate;
+        }
+        setRatingValue(currValue => currValue + value);
     };
 
     return (
@@ -48,26 +60,30 @@ const SingleComment: React.FC<IProps> = ({ author, img, text, date, rating, repl
                     <Comment.Actions style={{ userSelect: 'none' }}>
                         <a onClick={() => setReplyInputVisible(visible => !visible)}>Reply</a>
                         <span>
-                            <a style={{ margin: 0 }} onClick={() => setRatingValue(val => val - 1)}>
-                                <i aria-hidden="true" className="angle down icon large" style={{ margin: 0, opacity: .7 }} />
+                            <a style={{ margin: 0 }} onClick={() => handleRate(-1)}>
+                                <i aria-hidden="true" className={`angle down icon large ${ratingValue < rating && 'black'}`} style={{ margin: 0, opacity: .7 }} />
                             </a>
                             <span>{ratingValue}</span>
-                            <a onClick={() => setRatingValue(val => val + 1)}>
-                                <i aria-hidden="true" className="angle up icon large" style={{ margin: 0, opacity: .7 }} />
+                            <a onClick={() => handleRate(1)}>
+                                <i aria-hidden="true" className={`angle up icon large ${ratingValue > rating && 'black'}`} style={{ margin: 0, opacity: .7 }} />
                             </a>
                         </span>
                     </Comment.Actions>
                 </Comment.Content>
 
-                {repliedComments.length > 0 &&
+                {repliedComments.length > 0 ?
                     <Comment.Group>
-                        {repliedComments?.map(reply => (
-                            <SingleComment {...reply} />
+                        {repliedComments.map(reply => (
+                            <SingleComment key={reply.id + ""} {...reply} />
                         ))}
                     </Comment.Group>
+                    : null
                 }
             </Comment>
-            {replyInputVisible && <CommentInput isReply={true} submitCallback={handleReply} />}
+
+            {replyInputVisible &&
+                <CommentInput isReply={true} submitCallback={handleReply} />
+            }
         </>
     )
 }
