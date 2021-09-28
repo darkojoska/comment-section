@@ -1,4 +1,4 @@
-export default {
+const initialData = {
     data: [
         {
             id: 3,
@@ -35,3 +35,5 @@ export default {
     ],
     commentsCount: 4
 }
+
+export default initialData;

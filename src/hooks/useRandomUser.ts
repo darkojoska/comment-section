@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 export const useRandomUser = () => {
     const [user, setUser] = useState<IUser>({ name: '', img: '' });
 
+    // returns random user from the api 
     const fetchUser = async () => {
         fetch('https://randomuser.me/api/')
             .then(response => response.json())

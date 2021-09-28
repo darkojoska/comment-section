@@ -17,6 +17,7 @@ const SingleComment: React.FC<IProps> = ({ author, img, text, date, rating, repl
 
     const handleReply = (input: string) => {
         setReplyInputVisible(visible => !visible);
+        
         const now = new Date();
         const hours = now.getHours();
         const minutes = now.getMinutes();
@@ -39,9 +40,13 @@ const SingleComment: React.FC<IProps> = ({ author, img, text, date, rating, repl
         if (author === user.name) return alert('You can not rate your own comment =/');
 
         let value = rate;
-        if (ratingValue > rating && rate > 0 || ratingValue < rating && rate < 0) {
+        
+        // user clicked downvote or upwote again
+        if ((ratingValue > rating && rate > 0) || (ratingValue < rating && rate < 0)) {
             value = rate * (-1);
-        } else if (ratingValue > rating && rate < 0 || ratingValue < rating && rate > 0) {
+        } 
+        // user already voted but clicked on other option (upvote -> downvote || downvote -> upvote)
+        else if ((ratingValue > rating && rate < 0) || (ratingValue < rating && rate > 0)) {
             value += rate;
         }
         setRatingValue(currValue => currValue + value);

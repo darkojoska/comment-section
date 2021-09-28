@@ -10,7 +10,7 @@ import SingleComment from './SingleComment';
 const CommentSection: React.FC = () => {
     const [comments, setComments] = useState<IComment[]>(initialComments.data);
     const [commentsCount, setCommentsCount] = useState<number>(initialComments.commentsCount);
-    const user = useRandomUser();
+    const user = useRandomUser(); // returns a new random user from api on every mount
 
     const handleCommentAdd = (commentText: string) => {
         const date = new Date();
@@ -22,8 +22,8 @@ const CommentSection: React.FC = () => {
 
         const newComment: IComment = {
             id: commentsCount,
-            author: user?.name || '',
-            img: user?.img || '',
+            author: user.name,
+            img: user.img,
             text: commentText,
             date: `${day}-${month}-${year}, ${hours}:${minutes}`,
             rating: 0

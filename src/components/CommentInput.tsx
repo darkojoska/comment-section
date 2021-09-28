@@ -4,7 +4,6 @@ import { UserContext } from "../context/contexts";
 
 interface IProps {
     submitCallback: (input: string) => void,
-    user?: string,
     isReply?: boolean
 }
 
@@ -20,7 +19,7 @@ const CommentInput: React.FC<IProps> = ({ isReply = false, submitCallback }: IPr
 
     return (
         <Form reply style={{ marginBottom: 40, minWidth: 414 }}>
-            {!isReply &&
+            {!isReply && user?.name &&
                 <div style={{ marginBottom: 5 }}>
                     <span style={{ fontSize: 13 }}>
                         Comment as {' '}
