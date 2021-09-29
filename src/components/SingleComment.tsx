@@ -17,7 +17,7 @@ const SingleComment: React.FC<IProps> = ({ author, img, text, date, rating, repl
 
     const handleReply = (input: string) => {
         setReplyInputVisible(visible => !visible);
-        
+
         const now = new Date();
         const hours = now.getHours();
         const minutes = now.getMinutes();
@@ -40,11 +40,11 @@ const SingleComment: React.FC<IProps> = ({ author, img, text, date, rating, repl
         if (author === user.name) return alert('You can not rate your own comment =/');
 
         let value = rate;
-        
+
         // user clicked downvote or upwote again
         if ((ratingValue > rating && rate > 0) || (ratingValue < rating && rate < 0)) {
             value = rate * (-1);
-        } 
+        }
         // user already voted but clicked on other option (upvote -> downvote || downvote -> upvote)
         else if ((ratingValue > rating && rate < 0) || (ratingValue < rating && rate > 0)) {
             value += rate;
@@ -62,15 +62,15 @@ const SingleComment: React.FC<IProps> = ({ author, img, text, date, rating, repl
                         <span>{date}</span>
                     </Comment.Metadata>
                     <Comment.Text>{text}</Comment.Text>
-                    <Comment.Actions style={{ userSelect: 'none' }}>
+                    <Comment.Actions style={styles.commentActions}>
                         <a onClick={() => setReplyInputVisible(visible => !visible)}>Reply</a>
                         <span>
-                            <a style={{ margin: 0 }} onClick={() => handleRate(-1)}>
-                                <i aria-hidden="true" className={`angle down icon large ${ratingValue < rating && 'black'}`} style={{ margin: 0, opacity: .7 }} />
+                            <a style={styles.arrowDown} onClick={() => handleRate(-1)}>
+                                <i aria-hidden="true" className={`angle down icon large ${ratingValue < rating && 'black'}`} style={styles.icon} />
                             </a>
                             <span>{ratingValue}</span>
                             <a onClick={() => handleRate(1)}>
-                                <i aria-hidden="true" className={`angle up icon large ${ratingValue > rating && 'black'}`} style={{ margin: 0, opacity: .7 }} />
+                                <i aria-hidden="true" className={`angle up icon large ${ratingValue > rating && 'black'}`} style={styles.icon} />
                             </a>
                         </span>
                     </Comment.Actions>
@@ -91,6 +91,19 @@ const SingleComment: React.FC<IProps> = ({ author, img, text, date, rating, repl
             }
         </>
     )
+}
+
+const styles = {
+    commentActions: {
+        userSelect: 'none'
+    },
+    arrowDown: {
+        margin: 0
+    },
+    icon: {
+        margin: 0,
+        opacity: .7
+    }
 }
 
 export default SingleComment;

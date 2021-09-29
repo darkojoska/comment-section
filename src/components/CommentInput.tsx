@@ -18,10 +18,10 @@ const CommentInput: React.FC<IProps> = ({ isReply = false, submitCallback }: IPr
     };
 
     return (
-        <Form reply style={{ marginBottom: 40, minWidth: 414 }}>
+        <Form reply style={styles.container}>
             {!isReply && user?.name &&
-                <div style={{ marginBottom: 5 }}>
-                    <span style={{ fontSize: 13 }}>
+                <div style={styles.inputLabel}>
+                    <span style={styles.labelText}>
                         Comment as {' '}
                         <b>{user.name}</b>
                     </span>
@@ -41,5 +41,18 @@ const CommentInput: React.FC<IProps> = ({ isReply = false, submitCallback }: IPr
         </Form>
     )
 }
+
+const styles = {
+    container: {
+        marginBottom: 40,
+        minWidth: 414
+    },
+    inputLabel: {
+        marginBottom: 5
+    },
+    labelText: {
+        fontSize: 13
+    }
+};
 
 export default CommentInput;

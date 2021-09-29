@@ -34,7 +34,7 @@ const CommentSection: React.FC = () => {
 
     return (
         <UserContext.Provider value={user}>
-            <Comment.Group threaded style={{ marginBottom: 100 }}>
+            <Comment.Group threaded style={styles.container}>
                 <CommentInput submitCallback={handleCommentAdd} />
 
                 {comments.length > 0 ?
@@ -49,5 +49,11 @@ const CommentSection: React.FC = () => {
         </UserContext.Provider>
     )
 }
+
+const styles = {
+    container: {
+        marginBottom: 100
+    }
+};
 
 export default CommentSection;
